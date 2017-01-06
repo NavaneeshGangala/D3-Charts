@@ -1,0 +1,400 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>jsGrid - Basic Scenario</title>
+    <link rel="stylesheet" type="text/css" href="demos.css" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,600,400' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="../css/jsgrid.css" />
+    <link rel="stylesheet" type="text/css" href="../css/theme.css" />
+
+    <script src="../external/jquery/jquery-1.8.3.js"></script>
+    <script>
+
+        (function () {
+
+            var db = {
+
+                loadData: function (filter) {
+                    return $.grep(this.clients, function (client) {
+                        return (!filter.Name || client.Name.indexOf(filter.Name) > -1)
+                            && (filter.Age === undefined || client.Age === filter.Age)
+                            && (!filter.Address || client.Address.indexOf(filter.Address) > -1)
+                            && (!filter.Country || client.Country === filter.Country)
+                            && (filter.Married === undefined || client.Married === filter.Married);
+                    });
+                },
+
+                insertItem: function (insertingClient) {
+                    this.clients.push(insertingClient);
+                },
+
+                updateItem: function (updatingClient) { },
+
+                deleteItem: function (deletingClient) {
+                    var clientIndex = $.inArray(deletingClient, this.clients);
+                    this.clients.splice(clientIndex, 1);
+                }
+
+            };
+
+            window.db = db;
+
+
+            db.countries = [
+                { Name: "", Id: 0 },
+                { Name: "United States", Id: 1 },
+                { Name: "Canada", Id: 2 },
+                { Name: "United Kingdom", Id: 3 },
+                { Name: "France", Id: 4 },
+                { Name: "Brazil", Id: 5 },
+                { Name: "China", Id: 6 },
+                { Name: "Russia", Id: 7 }
+            ];
+
+            db.clients = [
+
+
+                {
+                    "Name": "Kirsten Mayo",
+                    "Age": 71,
+                    "Country": 1,
+                    "Address": "100-8640 Orci, Avenue",
+                    "Married": false
+                },
+                {
+                    "Name": "Willa Hobbs",
+                    "Age": 60,
+                    "Country": 6,
+                    "Address": "P.O. Box 323, 158 Tristique St.",
+                    "Married": false
+                },
+                {
+                    "Name": "Alexis Clements",
+                    "Age": 69,
+                    "Country": 5,
+                    "Address": "P.O. Box 176, 5107 Proin Rd.",
+                    "Married": false
+                },
+                {
+                    "Name": "Akeem Conrad",
+                    "Age": 60,
+                    "Country": 2,
+                    "Address": "282-495 Sed Ave",
+                    "Married": true
+                },
+                {
+                    "Name": "Montana Silva",
+                    "Age": 79,
+                    "Country": 6,
+                    "Address": "P.O. Box 120, 9766 Consectetuer St.",
+                    "Married": false
+                },
+                {
+                    "Name": "Kaseem Hensley",
+                    "Age": 77,
+                    "Country": 6,
+                    "Address": "Ap #510-8903 Mauris. Av.",
+                    "Married": true
+                },
+                {
+                    "Name": "Christopher Morton",
+                    "Age": 35,
+                    "Country": 5,
+                    "Address": "P.O. Box 234, 3651 Sodales Avenue",
+                    "Married": false
+                },
+                {
+                    "Name": "Wade Fernandez",
+                    "Age": 49,
+                    "Country": 6,
+                    "Address": "740-5059 Dolor. Road",
+                    "Married": true
+                },
+                {
+                    "Name": "Illiana Kirby",
+                    "Age": 31,
+                    "Country": 2,
+                    "Address": "527-3553 Mi Ave",
+                    "Married": false
+                },
+                {
+                    "Name": "Kimberley Hurley",
+                    "Age": 65,
+                    "Country": 5,
+                    "Address": "P.O. Box 637, 9915 Dictum St.",
+                    "Married": false
+                },
+                {
+                    "Name": "Arthur Olsen",
+                    "Age": 74,
+                    "Country": 5,
+                    "Address": "887-5080 Eget St.",
+                    "Married": false
+                },
+                {
+                    "Name": "Brody Potts",
+                    "Age": 59,
+                    "Country": 2,
+                    "Address": "Ap #577-7690 Sem Road",
+                    "Married": false
+                },
+                {
+                    "Name": "Dillon Ford",
+                    "Age": 60,
+                    "Country": 1,
+                    "Address": "Ap #885-9289 A, Av.",
+                    "Married": true
+                },
+                {
+                    "Name": "Hannah Juarez",
+                    "Age": 61,
+                    "Country": 2,
+                    "Address": "4744 Sapien, Rd.",
+                    "Married": true
+                },
+                {
+                    "Name": "Vincent Shaffer",
+                    "Age": 25,
+                    "Country": 2,
+                    "Address": "9203 Nunc St.",
+                    "Married": true
+                },
+                {
+                    "Name": "George Holt",
+                    "Age": 27,
+                    "Country": 6,
+                    "Address": "4162 Cras Rd.",
+                    "Married": false
+                },
+                {
+                    "Name": "Tobias Bartlett",
+                    "Age": 74,
+                    "Country": 4,
+                    "Address": "792-6145 Mauris St.",
+                    "Married": true
+                },
+                {
+                    "Name": "Xavier Hooper",
+                    "Age": 35,
+                    "Country": 1,
+                    "Address": "879-5026 Interdum. Rd.",
+                    "Married": false
+                },
+                {
+                    "Name": "Declan Dorsey",
+                    "Age": 31,
+                    "Country": 2,
+                    "Address": "Ap #926-4171 Aenean Road",
+                    "Married": true
+                },
+                {
+                    "Name": "Clementine Tran",
+                    "Age": 43,
+                    "Country": 4,
+                    "Address": "P.O. Box 176, 9865 Eu Rd.",
+                    "Married": true
+                },
+                {
+                    "Name": "Pamela Moody",
+                    "Age": 55,
+                    "Country": 6,
+                    "Address": "622-6233 Luctus Rd.",
+                    "Married": true
+                },
+                {
+                    "Name": "Julie Leon",
+                    "Age": 43,
+                    "Country": 6,
+                    "Address": "Ap #915-6782 Sem Av.",
+                    "Married": true
+                },
+                {
+                    "Name": "Shana Nolan",
+                    "Age": 79,
+                    "Country": 5,
+                    "Address": "P.O. Box 603, 899 Eu St.",
+                    "Married": false
+                },
+                {
+                    "Name": "Vaughan Moody",
+                    "Age": 37,
+                    "Country": 5,
+                    "Address": "880 Erat Rd.",
+                    "Married": false
+                },
+                {
+                    "Name": "Randall Reeves",
+                    "Age": 44,
+                    "Country": 3,
+                    "Address": "1819 Non Street",
+                    "Married": false
+                },
+                {
+                    "Name": "Dominic Raymond",
+                    "Age": 68,
+                    "Country": 1,
+                    "Address": "Ap #689-4874 Nisi Rd.",
+                    "Married": true
+                },
+                {
+                    "Name": "Lev Pugh",
+                    "Age": 69,
+                    "Country": 5,
+                    "Address": "Ap #433-6844 Auctor Avenue",
+                    "Married": true
+                },
+                {
+                    "Name": "Desiree Hughes",
+                    "Age": 80,
+                    "Country": 4,
+                    "Address": "605-6645 Fermentum Avenue",
+                    "Married": true
+                },
+                {
+                    "Name": "Idona Oneill",
+                    "Age": 23,
+                    "Country": 7,
+                    "Address": "751-8148 Aliquam Avenue",
+                    "Married": true
+                },
+                {
+                    "Name": "Lani Mayo",
+                    "Age": 76,
+                    "Country": 1,
+                    "Address": "635-2704 Tristique St.",
+                    "Married": true
+                },
+                {
+                    "Name": "Cathleen Bonner",
+                    "Age": 40,
+                    "Country": 1,
+                    "Address": "916-2910 Dolor Av.",
+                    "Married": false
+                },
+                {
+                    "Name": "Sydney Murray",
+                    "Age": 44,
+                    "Country": 5,
+                    "Address": "835-2330 Fringilla St.",
+                    "Married": false
+                },
+                {
+                    "Name": "Brenna Rodriguez",
+                    "Age": 77,
+                    "Country": 6,
+                    "Address": "3687 Imperdiet Av.",
+                    "Married": true
+                },
+                {
+                    "Name": "Alfreda Mcdaniel",
+                    "Age": 38,
+                    "Country": 7,
+                    "Address": "745-8221 Aliquet Rd.",
+                    "Married": true
+                },
+                {
+                    "Name": "Zachery Atkins",
+                    "Age": 30,
+                    "Country": 1,
+                    "Address": "549-2208 Auctor. Road",
+                    "Married": true
+                },
+                {
+                    "Name": "Amelia Rich",
+                    "Age": 56,
+                    "Country": 4,
+                    "Address": "P.O. Box 734, 4717 Nunc Rd.",
+                    "Married": false
+                },
+                {
+                    "Name": "Kiayada Witt",
+                    "Age": 62,
+                    "Country": 3,
+                    "Address": "Ap #735-3421 Malesuada Avenue",
+                    "Married": false
+                },
+                {
+                    "Name": "Lysandra Pierce",
+                    "Age": 36,
+                    "Country": 1,
+                    "Address": "Ap #146-2835 Curabitur St.",
+                    "Married": true
+                },
+                {
+                    "Name": "Cara Rios",
+                    "Age": 58,
+                    "Country": 4,
+                    "Address": "Ap #562-7811 Quam. Ave",
+                    "Married": true
+                },
+                {
+                    "Name": "Austin Andrews",
+                    "Age": 55,
+                    "Country": 7,
+                    "Address": "P.O. Box 274, 5505 Sociis Rd.",
+                    "Married": false
+                },
+                {
+                    "Name": "Lillian Peterson",
+                    "Age": 39,
+                    "Country": 2,
+                    "Address": "6212 A Avenue",
+                    "Married": false
+                }
+
+            ];
+
+        }());
+
+
+
+
+    </script>
+
+    <script src="../src/jsgrid.core.js"></script>
+    <script src="../src/jsgrid.load-indicator.js"></script>
+    <script src="../src/jsgrid.load-strategies.js"></script>
+    <script src="../src/jsgrid.sort-strategies.js"></script>
+    <script src="../src/jsgrid.field.js"></script>
+    <script src="../src/fields/jsgrid.field.text.js"></script>
+    <script src="../src/fields/jsgrid.field.number.js"></script>
+    <script src="../src/fields/jsgrid.field.select.js"></script>
+    <script src="../src/fields/jsgrid.field.checkbox.js"></script>
+    <script src="../src/fields/jsgrid.field.control.js"></script>
+</head>
+<body>
+    <h1>Basic Scenario</h1>
+    <div id="jsGrid"></div>
+
+    <script>
+        $(function() {
+
+            $("#jsGrid").jsGrid({
+                height: "70%",
+                width: "100%",
+                filtering: true,
+                editing: false,
+                inserting: false,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 15,
+                pageButtonCount: 5,
+                deleteConfirm: "Do you really want to delete the client?",
+                controller: db,
+                fields: [
+                    { name: "Name", type: "text", width: 150 },
+                    { name: "Age", type: "number", width: 50 },
+                    { name: "Address", type: "text", width: 200 },
+                    { name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" }
+                   // { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
+                  // { type: "control" }
+                ]
+            });
+
+        });
+    </script>
+</body>
+</html>

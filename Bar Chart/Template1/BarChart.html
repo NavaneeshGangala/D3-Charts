@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Combination Chart</title>
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue
+  
+}
+
+.x.axis path {
+  fill: none;
+  stroke: #000;
+}
+  
+.line {
+  fill: none;
+  stroke: maroon;
+  stroke-width: 1.7px;
+}
+
+
+.toolTip {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        display: none;
+        width: auto;
+        height: auto;
+        background: none repeat scroll 0 0 white;
+        border: 0 none;
+        border-radius: 8px 8px 8px 8px;
+        box-shadow: -3px 3px 15px #888888;
+        color: black;
+        font: 12px sans-serif;
+        padding: 5px;
+        text-align: center;
+    }
+
+    text {
+        font: 10px sans-serif;
+        color: white;
+    }
+    text.value {
+        font-size: 100%;
+        fill: white;
+    }
+	
+	
+	
+	
+	.float_l { float:left; }
+	.float_r { float:right; }
+	.clear { clear:both; }
+	.subtitle { background:#f1691f; color:#fff; font-size:14px; font-weight:bold; padding:6px 14px; }
+	.bor_a { border:1px solid #f1691f; min-height:120px; margin-bottom:20px; }
+	.fs14 { font-size:14px; }
+
+	ul, li { list-style: outside none none; margin:0px; padding:0px; }
+	.select_list ul { margin:0px; padding:10px; font-size:14px; }
+	.select_list ul li { margin:0px; padding:0px 0px 4px 0px; list-style:none; border-bottom: solid 1px #EEEEEE; }
+
+</style>
+</head>
+<body>
+
+<div class="float_l" style="padding:40px 0px 0px 40px;">
+    	<div class="bor_a">
+            <div class="subtitle">OutSourceName</div>
+            
+            <div class="select_list">
+            	<ul>
+                    <li><input type="checkbox" class="myCheckbox1" value="APC"> APC</li>
+                    <li><input type="checkbox" checked ="true"  class="myCheckbox1" value="APM"> APM</li>
+                    <li><input type="checkbox" class="myCheckbox1" value="APO"> APO</li>
+                </ul>
+            </div>
+            </div>
+            
+            <div class="bor_a">
+            <div class="subtitle">Rejected Referral Status</div>
+            <div class="select_list">
+            	<ul>
+                    <li><input type="checkbox" class="myCheckbox2" value="Regular"> Regular</li>
+                    <li><input type="checkbox" checked ="true" class="myCheckbox2" value="Supplemental"> Supplemental</li>
+                </ul>
+            </div>
+            </div>
+            
+            
+            <div class="bor_a">
+            <div class="subtitle">Referral Category</div>
+            <div class="select_list">
+            	<ul>
+                    <li><input type="checkbox" checked ="true" class="myCheckbox3" value="Y"> Rejected</li>
+                    <li><input type="checkbox" class="myCheckbox3" value="N"> Not Rejected</li>
+                </ul>
+            </div>
+            </div>
+            <script src="http://d3js.org/d3.v3.min.js"></script>
+            <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    </div>
+
+
+
+
+ <div class="container" id="chart1" style="float:left; padding-top:40px;" ></div>
+		
+		<script>
+
+d3.csv("FinalData.csv", function(error, data) {
+
+console.log(data);
+
+data.forEach(function(d) {
+  
+  if (d.TouchFlag == "Touched"){
+     d.Amount1 = +d.TouchedPayment;	 
+	 }
+   else {  
+	  d.Amount1 = +d.NotTouchedPayment;
+   }   
+  });
+
+var ArrayM =['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'];
+
+	 d3.selectAll(".myCheckbox1").on("change",update); 
+     d3.selectAll(".myCheckbox2").on("change",update);
+	 d3.selectAll(".myCheckbox3").on("change",update);
+	 update();
+	 
+		   
+       function update(){
+	   
+	     d3.select("svg").remove();
+         var choices = [];
+		 var choices2 = [];
+		 var choices3 = [];
+		 var result = [];
+		
+        d3.selectAll(".myCheckbox1").each(function(d){
+          cb = d3.select(this);
+          if(cb.property("checked")){
+            choices.push(cb.property("value"));
+          }
+        });
+		
+		  d3.selectAll(".myCheckbox2").each(function(d){
+          cb = d3.select(this);
+          if(cb.property("checked")){
+            choices2.push(cb.property("value"));
+          }
+        });
+		
+		d3.selectAll(".myCheckbox3").each(function(d){
+          cb = d3.select(this);
+          if(cb.property("checked")){
+            choices3.push(cb.property("value"));
+          }
+        });
+		
+		/*&& choices2.includes(d.RefCategory) */ 
+		//&& choices3.length > 0
+		console.log(choices);
+		console.log(choices2);
+		console.log(choices3);
+		
+		
+		if (choices =='APO' && choices2=='Supplemental')
+		{
+		d3.select("svg").remove();
+		alert('Data Not Available');
+		var svg = d3.select("#chart1").append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+			.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+			
+			
+svg.selectAll(".text")
+               .data(result)
+             .enter().append("text")
+               
+                .text( "Chart Not Available ");
+		
+		}
+		else if(choices.length > 0 && choices2.length > 0 && choices3.length > 0 ){
+          newData = data.filter(function(d,i){return choices.includes(d.OSName) && choices2.includes(d.RefCategory) && choices3.includes(d.RejStatus);});
+		  console.log(newData);
+		    } 
+		else if (choices.length > 0 && choices2.length > 0 )
+			{ newData = data.filter(function(d,i){return choices.includes(d.OSName) && choices2.includes(d.RefCategory);});
+		  console.log(newData);}
+		  
+		  else if (choices2.length > 0 && choices3.length > 0 )
+			{ newData = data.filter(function(d,i){return choices2.includes(d.RefCategory) && choices3.includes(d.RejStatus);});
+		  console.log(newData);}
+		  
+		  else if (choices.length > 0 && choices3.length > 0 )
+			{ newData = data.filter(function(d,i){return choices.includes(d.OSName) && choices3.includes(d.RejStatus);});
+		  console.log(newData);}
+		  
+		  else if (choices.length > 0)
+			{ newData = data.filter(function(d,i){return choices.includes(d.OSName);});
+		  console.log(newData);}
+		  
+		  else if (choices2.length > 0)
+			{ newData = data.filter(function(d,i){return choices2.includes(d.RefCategory);});
+		  console.log(newData);}
+		  
+		  else if (choices3.length > 0)
+			{ newData = data.filter(function(d,i){return choices3.includes(d.RejStatus);});
+		  console.log(newData);}
+		  
+		else {
+          newData = data;     
+        } 
+		  //add the close 
+		  
+		  for(i=0;i < ArrayM.length;i++)
+		  {
+				var element= {};
+					 
+					 element.InvoiceCount =0;
+					 element.Amount1=0;
+					 element.Amount2=0;
+					 
+		          for(j=0;j<newData.length;j++)
+				  {
+				  
+		           if (newData[j].letter ==ArrayM[i])
+				   {				     
+				    element.letter=ArrayM[i];
+					element.InvoiceCount += parseInt(newData[j].InvoiceCount);
+					element.Amount1 += parseFloat(d3.round(newData[j].Amount1),2);
+					element.Amount2 += parseFloat(d3.round(newData[j].Amount2),2);
+					console.log("Hi");
+				   }
+				 
+				   
+				  }
+				  
+				  result.push(element);
+				  
+		  }
+		  console.log(result);
+		  
+			//result to remove the extra column 
+			var result = $.grep(result, function(e){ 
+			return e.Amount2 != 0; 
+			//Extra cloumns removal 
+});
+console.log(result);
+		  //D3 code to generate chart Start //
+var margin = {top: 50, right: 20, bottom: 50, left: 70},
+    width = 700 - margin.left - margin.right,
+    height = 450 - margin.top - margin.bottom;
+
+var formatPercent = d3.format("0M");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .091);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom"); 
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(Number)
+    .ticks(6);
+
+var svg = d3.select("#chart1").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+	
+	
+	
+  result.forEach(function(d) {
+  //console.log(d);
+   d.frequency =  +d3.round(((d.Amount1/d.Amount2)*100),2);
+   
+	 });
+ 
+ 
+  
+  
+  x.domain(result.map(function(d) { return d.letter; }));
+  y.domain([0, d3.max(result, function(d) { return d.frequency; })]);
+
+
+svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "1em")
+            .attr("dy", "1.0005em")
+            .attr("transform", "rotate(-0)" );
+
+svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 9)
+      .attr("dy", ".9em")
+      .style("text-anchor", "end")
+      //.text("Frequency");
+
+svg.selectAll(".bar")
+      .data(result)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.letter); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.frequency); })
+
+      .attr("height", function(d) { return height - y(d.frequency); });
+
+
+
+
+svg.selectAll(".text")
+               .data(result)
+             .enter().append("text")
+.attr("x", function (d) { return x(d.letter)+10; })
+               .attr("y", function (d) { return y(d.frequency) - 32; })
+		.text(function (d) {  return ("$"+d3.round((d.Amount2/1000000),2)+"M");  });		
+
+svg.selectAll(".text")
+               .data(result)
+             .enter().append("text")
+.attr("x", function (d) { return x(d.letter)+10; })
+               .attr("y", function (d) { return y(d.frequency) - 22; })
+		.text(function (d) {  return ("$"+d3.round((d.Amount1/1000000),2)+"M");  });
+
+
+svg.selectAll(".text")
+               .data(result)
+             .enter().append("text")
+               .attr("x", function (d) { return x(d.letter)+10; })
+               .attr("y", function (d) { return y(d.frequency) - 12; })
+                .text(function (d) {  return ("("+d.frequency + "%" + ")");  });
+
+svg.selectAll(".text")
+               .data(result)
+             .enter().append("text")
+.attr("x", function (d) { return x(d.letter)+15; })
+               .attr("y", function (d) { return y(d.frequency) -2; })
+		.text(function (d) {  return (d.InvoiceCount);  });
+
+
+
+
+//Displaying line
+var dataSum = d3.sum(result, function(d) { return d.frequency; }); 
+ var LineLength = result.length;
+ console.log(LineLength);
+ var line = d3.svg.line()
+    .x(function(d, i) { 
+      return x(d.letter); })
+    .y(function(d, i) { return y(dataSum/LineLength); }); 
+ 
+  svg.append("path")
+      .datum(result)
+      .attr("class", "line")
+      .style("stroke-dasharray", ("3, 4"))
+      .attr("d", line);
+
+   //D3 code to generate chart Start //
+   
+   
+      
+		}
+	
+		
+});
+
+
+  
+</script>  
+		
+	
+</body>
+</html>

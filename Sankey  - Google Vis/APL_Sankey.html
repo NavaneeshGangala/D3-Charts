@@ -1,0 +1,171 @@
+<html>
+<body>
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<div id="sankey_multiple" style="width: 900px; height: 600px;"></div>
+
+<script type="text/javascript">
+  google.charts.load("current", {packages:["sankey"]});
+  google.charts.setOnLoadCallback(drawChart);
+   function drawChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'From');
+    data.addColumn('string', 'To');
+    data.addColumn('number', 'Weight');
+	data.addColumn('number', 'Frequency');
+    data.addRows([
+
+['T1_APL','T2_APL',11954,52.88],
+['T1_APL','T2_APLSNT',8,0.04],
+['T1_APL','T2_BILLING',3,0.01],
+['T1_APL','T2_BP',298,1.32],
+['T1_APL','T2_CFI',16,0.07],
+['T1_APL','T2_CR',189,0.84],
+['T1_APL','T2_FEND',434,1.92],
+['T1_APL','T2_FU',1196,5.29],
+['T1_APL','T2_PCR',339,1.5],
+['T1_APL','T2_PD',5,0.02],
+['T1_APL','T2_PWO',55,0.24],
+['T1_APL','T2_QUIC',183,0.81],
+['T1_APL','T2_RSC',24,0.11],
+['T1_APL','T2_TAP',170,0.75],
+['T1_APL','T2_Untouched',7571,33.49],
+['T1_APL','T2_W-APL',149,0.66],
+['T1_APL','T2_ADJUS',12,0.05],
+
+
+['T2_APL','T3_APL',1069,8.94],
+['T2_APL','T3_APLSNT',1,0.01],
+['T2_APL','T3_BILLING',5,0.04],
+['T2_APL','T3_BP',730,6.11],
+['T2_APL','T3_CFI',15,0.13],
+['T2_APL','T3_CR',178,1.49],
+['T2_APL','T3_FEND',701,5.86],
+['T2_APL','T3_FU',838,7.01],
+['T2_APL','T3_PCR',78,0.65],
+['T2_APL','T3_PD',3,0.03],
+['T2_APL','T3_PWO',91,0.76],
+['T2_APL','T3_QUIC',98,0.82],
+['T2_APL','T3_RSC',21,0.18],
+['T2_APL','T3_TAP',180,1.51],
+['T2_APL','T3_Untouched',7931,66.35],
+['T2_APL','T3_W-APL',3,0.03],
+['T2_APLSNT','T3_CR',1,12.5],
+['T2_APLSNT','T3_Untouched',7,87.5],
+
+['T2_BILLING','T3_Untouched',1,33.33],
+['T2_BP','T3_APL',21,7.05],
+['T2_BP','T3_FEND',1,0.34],
+['T2_BP','T3_FU',2,0.67],
+['T2_BP','T3_Untouched',274,91.95],
+['T2_CFI','T3_APL',3,18.75],
+['T2_CFI','T3_PCR',2,12.5],
+['T2_CFI','T3_Untouched',11,68.75],
+
+['T2_CR','T3_APL',26,13.76],
+['T2_CR','T3_BP',4,2.12],
+['T2_CR','T3_CR',10,5.29],
+['T2_CR','T3_FEND',1,0.53],
+['T2_CR','T3_FU',8,4.23],
+['T2_CR','T3_PCR',1,0.53],
+['T2_CR','T3_PWO',1,0.53],
+['T2_CR','T3_TAP',2,1.06],
+['T2_CR','T3_Untouched',135,71.43],
+['T2_FEND','T3_APL',15,3.46],
+['T2_FEND','T3_CR',1,0.23],
+['T2_FEND','T3_FEND',6,1.38],
+['T2_FEND','T3_TAP',1,0.23],
+['T2_FEND','T3_Untouched',411,94.7],
+
+['T2_FU','T3_APL',161,13.46],
+['T2_FU','T3_BILLING',3,0.25],
+['T2_FU','T3_BP',32,2.68],
+['T2_FU','T3_CR',26,2.17],
+['T2_FU','T3_FEND',44,3.68],
+['T2_FU','T3_FU',98,8.19],
+['T2_FU','T3_PCR',9,0.75],
+['T2_FU','T3_PD',1,0.08],
+['T2_FU','T3_PWO',10,0.84],
+['T2_FU','T3_QUIC',18,1.51],
+['T2_FU','T3_RSC',1,0.08],
+['T2_FU','T3_TAP',21,1.76],
+['T2_FU','T3_Untouched',771,64.46],
+['T2_PCR','T3_APL',7,2.06],
+['T2_PCR','T3_BP',19,5.6],
+['T2_PCR','T3_CFI',15,4.42],
+['T2_PCR','T3_FU',2,0.59],
+['T2_PCR','T3_PCR',12,3.54],
+['T2_PCR','T3_PWO',1,0.29],
+['T2_PCR','T3_QUIC',4,1.18],
+['T2_PCR','T3_Untouched',279,82.3],
+['T2_PD','T3_Untouched',5,100],
+['T2_PWO','T3_Untouched',55,100],
+['T2_QUIC','T3_APL',90,49.18],
+['T2_QUIC','T3_BP',1,0.55],
+['T2_QUIC','T3_CR',1,0.55],
+['T2_QUIC','T3_FEND',16,8.74],
+['T2_QUIC','T3_FU',6,3.28],
+['T2_QUIC','T3_PCR',3,1.64],
+['T2_QUIC','T3_PWO',7,3.83],
+['T2_QUIC','T3_QUIC',20,10.93],
+['T2_QUIC','T3_TAP',4,2.19],
+['T2_QUIC','T3_Untouched',34,18.58],
+['T2_QUIC','T3_W-APL',1,0.55],
+['T2_RSC','T3_FEND',1,4.17],
+['T2_RSC','T3_FU',2,8.33],
+['T2_RSC','T3_RSC',4,16.67],
+['T2_RSC','T3_TAP',1,4.17],
+['T2_RSC','T3_Untouched',16,66.67],
+['T2_TAP','T3_APL',9,5.29],
+['T2_TAP','T3_BILLING',1,0.59],
+['T2_TAP','T3_BP',3,1.76],
+['T2_TAP','T3_CR',1,0.59],
+['T2_TAP','T3_FU',5,2.94],
+['T2_TAP','T3_QUIC',2,1.18],
+['T2_TAP','T3_TAP',5,2.94],
+['T2_TAP','T3_Untouched',144,84.71],
+['T2_Untouched','T3_Untouched',0,0],
+
+['T2_W-APL','T3_APL',14,9.4],
+['T2_W-APL','T3_CR',3,2.01],
+['T2_W-APL','T3_FEND',29,19.46],
+['T2_W-APL','T3_FU',15,10.07],
+['T2_W-APL','T3_PCR',5,3.36],
+['T2_W-APL','T3_PWO',24,16.11],
+['T2_W-APL','T3_QUIC',5,3.36],
+['T2_W-APL','T3_TAP',11,7.38],
+['T2_W-APL','T3_Untouched',42,28.19],
+['T2_ADJUS','T3_ADJUS',3,25],
+['T2_ADJUS','T3_Untouched',9,75],
+['T2_APL','T3_ADJUS',12,0.1],
+['T2_BILLING','T3_ADJUS',2,66.67],
+['T2_CR','T3_ADJUS',1,0.53],
+['T2_FU','T3_ADJUS',1,0.08],
+['T2_W-APL','T3_ADJUS',1,0.67],
+
+    ]);
+    
+    // Set chart options
+//	var colors = [,,,,,,,,,,'#FF0000',,];
+	var options = {
+      width: 600,
+      sankey: {
+	    iterations: 0,
+    	node: {interactivity:true,color: { fill: '#a61d4c' },
+ 	       	   colors : ['#a6cee3', '#b2df8a', '#fb9a99', '#fdbf6f',
+				 	     '#cab2d6', '#ffff99', '#1f78b4', '#33a02c',
+					     '#a6cee3', '#b2df8a', 'ff7400', '00ff6b',],},
+		label: { color: '#000000',bold:true,italic:true },
+        link: { color: { fill: '#cccccc', fillOpacity: 0.4 } },
+        
+      }
+    };
+   
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.Sankey(document.getElementById('sankey_multiple'));
+    chart.draw(data, options);
+   }
+</script>
+</body>
+</html>
